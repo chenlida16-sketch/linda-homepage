@@ -5,386 +5,336 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Linda · AI 副业实战</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #0a0a0f;
-  --bg: #0f0f16;
-  --surface: #181822;
-  --surface-hover: #1f1f2d;
-  --surface-alt: #12121c;
-  --border: #24243a;
-  --border-light: #1e1e30;
-  --text: #ececf4;
-  --text-secondary: #9494b0;
-  --text-tertiary: #64647c;
-  --accent: #7c5cfc;
-  --accent-soft: rgba(124,92,252,0.12);
-  --accent-glow: rgba(124,92,252,0.15);
-  --accent-gradient: linear-gradient(135deg, #7c5cfc, #a78bfa, #7c5cfc);
-  --green: #10b981;
-  --green-soft: rgba(16,185,129,0.12);
-  --amber: #f59e0b;
-  --amber-soft: rgba(245,158,11,0.12);
-  --rose: #f43f5e;
-  --rose-soft: rgba(244,63,94,0.12);
-  --radius-sm: 8px;
-  --radius: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --radius-full: 9999px;
+  --bg: #0a0a0e;
+  --surface: #121218;
+  --surface-alt: #0e0e14;
+  --border: #1c1c26;
+  --border-light: rgba(255,255,255,0.04);
+  --text: #e6e2e0;
+  --text-secondary: #8a8690;
+  --text-tertiary: #5c5a64;
+  --accent: #a08ec8;
+  --accent-soft: rgba(160,142,200,0.08);
+  --accent-glow: rgba(160,142,200,0.06);
+  --radius: 12px;
 }
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Noto Sans SC','Inter',-apple-system,sans-serif;
-  background:var(--bg);color:var(--text);
-  line-height:1.65;-webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  font-family: 'Inter','Noto Sans SC',-apple-system,sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
-::selection{background:var(--accent);color:#fff}
+::selection{background:rgba(160,142,200,0.3);color:var(--text)}
 
-/* ── header ── */
+/* subtle noise overlay */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;
+  opacity:0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:256px 256px;
+  pointer-events:none;
+}
+
+/* header */
 header{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:0 2rem;height:60px;
+  height:60px;padding:0 2.5rem;
   display:flex;align-items:center;justify-content:space-between;
-  backdrop-filter:blur(28px) saturate(1.8);
-  -webkit-backdrop-filter:blur(28px) saturate(1.8);
-  background:rgba(15,15,22,0.72);
+  backdrop-filter:blur(32px) saturate(2);
+  -webkit-backdrop-filter:blur(32px) saturate(2);
+  background:rgba(10,10,14,0.6);
   border-bottom:1px solid var(--border-light);
 }
-.logo{font-weight:800;font-size:1.1rem;letter-spacing:-0.02em}
-.logo em{font-style:normal;background:var(--accent-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.nav{display:flex;gap:.5rem;align-items:center}
+.logo{
+  font-weight:700;font-size:1rem;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--text);
+  opacity:0.9;
+}
+.logo span{color:var(--accent)}
+.nav{display:flex;gap:2rem;align-items:center}
 .nav a{
   color:var(--text-secondary);text-decoration:none;
-  font-size:.82rem;font-weight:500;
-  padding:.35rem .85rem;border-radius:var(--radius-sm);
-  transition:all .2s;
+  font-size:.8rem;font-weight:400;letter-spacing:0.03em;
+  transition:color .25s;position:relative;
 }
-.nav a:hover{color:var(--text);background:var(--surface-hover)}
+.nav a::after{
+  content:'';position:absolute;bottom:-2px;left:0;
+  width:0;height:1px;background:var(--accent);
+  transition:width .4s;
+}
+.nav a:hover{color:var(--text)}
+.nav a:hover::after{width:100%}
 
-/* ── hero ── */
+/* -- hero -- */
 .hero{
-  min-height:100vh;padding:140px 2rem 5rem;
-  display:flex;align-items:center;position:relative;
-  overflow:hidden;
+  min-height:100vh;padding:140px 2.5rem 5rem;
+  display:flex;align-items:center;position:relative;overflow:hidden;
 }
-.hero-bg-glow{
-  position:absolute;top:-30%;right:-15%;
-  width:700px;height:700px;
-  background:radial-gradient(circle,rgba(124,92,252,0.10),transparent 60%);
+.hero-bg{
+  position:absolute;top:-40%;right:-15%;
+  width:800px;height:800px;
+  background:radial-gradient(circle,rgba(160,142,200,0.05),transparent 60%);
   pointer-events:none;
 }
-.hero-bg-glow-2{
-  position:absolute;bottom:-20%;left:-10%;
-  width:500px;height:500px;
-  background:radial-gradient(circle,rgba(16,185,129,0.06),transparent 60%);
-  pointer-events:none;
-}
-.hero-grid{
-  max-width:1120px;margin:0 auto;width:100%;
-  display:grid;grid-template-columns:1fr 340px;gap:4rem;
-  align-items:center;position:relative;z-index:2;
-}
+.hero-inner{max-width:1080px;margin:0 auto;width:100%;position:relative;z-index:2}
 
-.hero-tag{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:5px 16px 5px 12px;
-  border-radius:var(--radius-full);
-  font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;
-  background:var(--accent-soft);color:var(--accent);
-  border:1px solid rgba(124,92,252,0.15);
-  margin-bottom:1.2rem;
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+
+.hero-label{
+  font-size:.72rem;font-weight:600;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:1.5rem;
 }
-.hero-tag .dot{
-  width:6px;height:6px;border-radius:50%;background:var(--accent);
-  animation:pulse-dot 2s infinite;
-}
-@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
 
 .hero h1{
-  font-size:clamp(2.5rem,5.5vw,4.2rem);
-  font-weight:800;line-height:1.08;
-  letter-spacing:-0.04em;
-  margin-bottom:1.2rem;
+  font-size:clamp(2.8rem,5vw,4.4rem);
+  font-weight:700;line-height:1.08;
+  letter-spacing:-0.035em;
+  margin-bottom:1.5rem;
 }
-.hero h1 .gradient{
-  background:var(--accent-gradient);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+.hero h1 .serif{
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-weight:400;
+  color:var(--accent);
 }
-.hero h1 .highlight{
-  position:relative;
-  background:linear-gradient(180deg,transparent 55%,rgba(124,92,252,0.18) 55%);
-  display:inline-block;
+.hero h1 .accent{
+  color:var(--accent);
 }
 .hero-desc{
-  font-size:1rem;color:var(--text-secondary);max-width:470px;
-  margin-bottom:2rem;line-height:1.7;
+  font-size:.95rem;color:var(--text-secondary);
+  max-width:400px;line-height:1.7;
+  margin-bottom:2.5rem;
 }
-.hero-desc strong{color:var(--text);font-weight:600}
 
-.hero-badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.2rem}
-.hero-badges span{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:.3rem .85rem;border-radius:var(--radius-full);
-  font-size:.76rem;font-weight:500;
-  background:var(--surface);border:1px solid var(--border-light);
-  color:var(--text-secondary);transition:all .2s;
-}
-.hero-badges span:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
-.hero-badges .bd{width:5px;height:5px;border-radius:50%;display:inline-block}
-.bd--accent{background:var(--accent)}
-.bd--green{background:var(--green)}
-.bd--amber{background:var(--amber)}
-
-.hero-actions{display:flex;gap:.85rem}
+.hero-actions{display:flex;gap:1rem}
 .btn{
   display:inline-flex;align-items:center;gap:8px;
-  padding:.75rem 1.6rem;border-radius:var(--radius-full);
-  font-size:.86rem;font-weight:600;text-decoration:none;
-  transition:all .25s;cursor:pointer;border:none;font-family:inherit;
+  padding:.7rem 1.5rem;border-radius:var(--radius);
+  font-size:.82rem;font-weight:500;text-decoration:none;
+  transition:all .3s;cursor:pointer;border:none;font-family:inherit;
 }
 .btn-primary{
-  background:var(--accent-gradient);color:#fff;
-  box-shadow:0 4px 20px var(--accent-glow);
+  background:var(--accent);color:#0a0a0e;
+  font-weight:600;
 }
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,92,252,0.3)}
+.btn-primary:hover{
+  opacity:0.9;transform:translateY(-1px);
+}
 .btn-secondary{
-  background:var(--surface);color:var(--text);
+  background:transparent;color:var(--text);
   border:1px solid var(--border);
 }
-.btn-secondary:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
-
-/* hero visual */
-.hero-visual{position:relative;display:flex;justify-content:center}
-.avatar{
-  position:relative;width:280px;height:280px;border-radius:50%;
-  background:var(--surface-alt);overflow:hidden;
-  border:1px solid var(--border);
-}
-.avatar::before{
-  content:'';position:absolute;inset:-2px;border-radius:50%;
-  background:conic-gradient(from 0deg,var(--accent),#a78bfa,transparent 40%,transparent 70%,var(--green),var(--accent));
-  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
-  mask-composite:exclude;
-  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
-  -webkit-mask-composite:exclude;
-  padding:2px;
-  animation:spin 10s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.avatar-inner{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-size:5.5rem;font-weight:800;
-}
-.avatar-inner span{
-  background:var(--accent-gradient);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+.btn-secondary:hover{
+  border-color:var(--accent);color:var(--accent);transform:translateY(-1px);
 }
 
-.float-tags{position:absolute;width:100%;height:100%;top:0;left:0;pointer-events:none}
-.float-tag{
-  position:absolute;display:flex;align-items:center;gap:5px;
-  padding:.4rem 1rem;border-radius:var(--radius-sm);
-  font-size:.72rem;font-weight:600;
-  background:rgba(24,24,34,.92);backdrop-filter:blur(8px);
-  border:1px solid var(--border);
-  animation:float 5s ease-in-out infinite;white-space:nowrap;
+/* hero right - minimal visual */
+.hero-visual{
+  display:flex;flex-direction:column;align-items:center;gap:2rem;
 }
-.float-tag:nth-child(1){top:2%;right:-15px;animation-delay:0s}
-.float-tag:nth-child(2){top:56%;left:-40px;animation-delay:1.5s}
-.float-tag:nth-child(3){bottom:2%;animation-delay:3s}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.hero-mono{
+  font-size:.8rem;color:var(--text-tertiary);
+  letter-spacing:0.1em;font-weight:400;
+  writing-mode:vertical-rl;text-orientation:mixed;
+  opacity:0.5;
+}
+.hero-stats-mini{
+  display:flex;gap:2.5rem;
+}
+.hero-stats-mini div{
+  text-align:center;
+}
+.hero-stats-mini .num{
+  font-size:2rem;font-weight:300;letter-spacing:-0.03em;color:var(--text);line-height:1;
+}
+.hero-stats-mini .lbl{
+  font-size:.7rem;color:var(--text-tertiary);letter-spacing:0.05em;
+  text-transform:uppercase;margin-top:6px;
+}
 
-/* stats row */
-.stats-row{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
-  margin-top:3rem;position:relative;z-index:2;max-width:1120px;margin-left:auto;margin-right:auto;padding:0 2rem;
+/* -- stats bar -- */
+.stats-bar{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  max-width:1080px;margin:-1.5rem auto 0;padding:0 2.5rem;position:relative;z-index:2;
 }
-.stat-tile{
-  background:var(--surface);border:1px solid var(--border-light);
-  border-radius:var(--radius);padding:1.25rem 1.5rem;
+.stats-bar > *{
+  background:var(--surface);padding:1.5rem 2rem;
   display:flex;align-items:center;gap:1rem;
-  transition:all .25s;
 }
-.stat-tile:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.15)}
-.stat-tile-icon{
-  width:40px;height:40px;border-radius:var(--radius-sm);
-  display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;
-}
-.stat-tile-text .num{font-size:1.5rem;font-weight:800;letter-spacing:-0.03em;line-height:1.1}
-.stat-tile-text .lbl{font-size:.8rem;color:var(--text-secondary);font-weight:500;margin-top:2px}
+.stats-bar > *:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+.stats-bar > *:last-child{border-radius:0 var(--radius) var(--radius) 0}
+.stats-bar .sym{font-size:1rem;opacity:0.5}
+.stats-bar .n{font-size:1.3rem;font-weight:600;letter-spacing:-0.02em}
+.stats-bar .l{font-size:.78rem;color:var(--text-secondary);font-weight:400}
 
 /* sections */
-section{max-width:1120px;margin:0 auto;padding:5rem 2rem}
-.section-header{text-align:center;margin-bottom:3rem}
-.section-eyebrow{
-  display:inline-block;
-  font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
-  color:var(--accent);margin-bottom:.7rem;
+section{max-width:1080px;margin:0 auto;padding:6rem 2.5rem}
+.section-hdr{margin-bottom:3.5rem}
+.section-hdr.labeled{display:flex;align-items:flex-end;justify-content:space-between;gap:3rem}
+.section-hdr .eyebrow{
+  font-size:.7rem;font-weight:600;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:.6rem;
 }
-.section-title{
-  font-size:clamp(1.5rem,3vw,2.1rem);
-  font-weight:800;letter-spacing:-0.025em;
-  margin-bottom:.6rem;
+.section-hdr h2{
+  font-size:clamp(1.6rem,2.5vw,2.2rem);
+  font-weight:600;letter-spacing:-0.025em;
+  line-height:1.2;
 }
-.section-desc{color:var(--text-secondary);font-size:.88rem;max-width:460px;margin:0 auto;line-height:1.6}
+.section-hdr .sub{
+  color:var(--text-secondary);font-size:.85rem;max-width:380px;
+  line-height:1.6;
+}
 
-/* about */
-.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}
-.about-card{
-  background:var(--surface);border:1px solid var(--border-light);
-  border-radius:var(--radius);padding:2rem;
-  transition:all .25s;
+/* -- about -- */
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:1px}
+.about-grid > *{background:var(--surface);padding:2.5rem}
+.about-grid > *:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+.about-grid > *:last-child{border-radius:0 var(--radius) var(--radius) 0}
+.about-text p{
+  font-size:.88rem;color:var(--text-secondary);line-height:1.75;margin-bottom:1rem;
 }
-.about-card:hover{border-color:var(--accent)}
-.about-card p{font-size:.88rem;color:var(--text-secondary);line-height:1.7;margin-bottom:.9rem}
-.about-card p:last-child{margin-bottom:0}
-.about-card p strong{color:var(--text);font-weight:600}
-.tl-card{background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius);padding:2rem}
-.tl{position:relative;padding-left:1.4rem;border-left:2px solid var(--accent-soft)}
-.tl-it{margin-bottom:1.4rem;position:relative}
-.tl-it:last-child{margin-bottom:0}
+.about-text p:last-child{margin-bottom:0}
+.about-text p strong{color:var(--text);font-weight:500}
+.tl{position:relative;padding-left:1.5rem}
+.tl::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:1px;background:var(--border)}
+.tl-it{padding-bottom:1.5rem;position:relative}
+.tl-it:last-child{padding-bottom:0}
 .tl-it::before{
-  content:'';position:absolute;left:-1.55rem;top:.3rem;
-  width:10px;height:10px;border-radius:50%;
+  content:'';position:absolute;left:-1.55rem;top:.35rem;
+  width:7px;height:7px;border-radius:50%;
   background:var(--accent);border:2px solid var(--surface);
 }
-.tl-it .t{font-weight:600;font-size:.86rem}
-.tl-it .d{font-size:.78rem;color:var(--text-secondary);margin-top:2px;line-height:1.5}
+.tl-it .t{font-weight:500;font-size:.85rem;color:var(--text)}
+.tl-it .d{font-size:.78rem;color:var(--text-secondary);margin-top:3px}
 
 /* services */
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.service-c{
-  background:var(--surface);border:1px solid var(--border-light);
-  border-radius:var(--radius);padding:1.75rem;
-  transition:all .25s;position:relative;overflow:hidden;
-}
-.service-c::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:var(--accent-gradient);opacity:0;transition:opacity .25s;
-}
-.service-c:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.15)}
-.service-c:hover::before{opacity:1}
-.service-c .ic{
-  width:42px;height:42px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
-  margin-bottom:.9rem;
-}
-.service-c h3{font-size:.95rem;font-weight:700;margin-bottom:.35rem}
-.service-c p{font-size:.8rem;color:var(--text-secondary);line-height:1.6}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px}
+.services-grid > *{background:var(--surface);padding:2rem;transition:all .35s}
+.services-grid > *:hover{background:var(--surface-alt)}
+.services-grid > *:first-child{border-radius:var(--radius) 0 0 0}
+.services-grid > *:nth-child(3){border-radius:0 var(--radius) 0 0}
+.services-grid > *:nth-child(4){border-radius:0 0 0 var(--radius)}
+.services-grid > *:last-child{border-radius:0 0 var(--radius) 0}
+.service-c .ic{font-size:.9rem;margin-bottom:.75rem;opacity:0.6}
+.service-c h3{font-size:.9rem;font-weight:600;margin-bottom:.3rem}
+.service-c p{font-size:.78rem;color:var(--text-secondary);line-height:1.65}
 
 /* portfolio */
-.portfolio-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.port-c{
-  background:var(--surface);border:1px solid var(--border-light);
-  border-radius:var(--radius);overflow:hidden;transition:all .25s;
+.port-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:1px}
+.port-grid > *{background:var(--surface);overflow:hidden;transition:all .35s}
+.port-grid > *:hover{background:var(--surface-alt)}
+.port-grid > *:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+.port-grid > *:last-child{border-radius:0 var(--radius) var(--radius) 0}
+.port-grid > *:nth-child(4){border-radius:0 0 0 var(--radius)}
+.port-grid > *:nth-child(5){border-radius:0 0 var(--radius) 0}
+.port-img{width:100%;aspect-ratio:16/11;overflow:hidden;background:var(--surface-alt)}
+.port-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.port-grid > *:hover .port-img img{transform:scale(1.04)}
+.port-bd{padding:1rem 1.25rem 1.15rem}
+.port-bd .tag{
+  display:inline-block;padding:1px 10px;border-radius:var(--radius);
+  font-size:.64rem;font-weight:500;color:var(--accent);
+  background:var(--accent-soft);margin-bottom:.3rem;
 }
-.port-c:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
-.port-c--wide{grid-column:span 2;grid-row:span 2}
-.port-c-img{width:100%;aspect-ratio:16/10;overflow:hidden;background:var(--surface-alt)}
-.port-c-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
-.port-c:hover .port-c-img img{transform:scale(1.04)}
-.port-c-bd{padding:.9rem 1.15rem 1.1rem}
-.port-c-bd h3{font-size:.9rem;font-weight:700;margin-bottom:.15rem}
-.port-c-bd p{font-size:.78rem;color:var(--text-secondary);line-height:1.5;margin-top:.15rem}
-.port-tag{
-  display:inline-block;padding:2px 10px;border-radius:var(--radius-full);
-  font-size:.66rem;font-weight:600;color:var(--accent);
-  background:var(--accent-soft);margin-bottom:.4rem;
-}
+.port-bd h3{font-size:.85rem;font-weight:600;margin-bottom:.1rem}
+.port-bd p{font-size:.76rem;color:var(--text-secondary);line-height:1.5;margin-top:.1rem}
 
 /* tools */
-.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.tool-c{
-  background:var(--surface);border:1px solid var(--border-light);
-  border-radius:var(--radius);padding:1.5rem;text-align:center;
-  transition:all .25s;
-}
-.tool-c:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
-.tool-c .ic{
-  width:48px;height:48px;border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.25rem;margin:0 auto .85rem;
-}
-.tool-c h3{font-size:.9rem;font-weight:700;margin-bottom:.25rem}
-.tool-c p{font-size:.78rem;color:var(--text-secondary);line-height:1.5}
+.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.tools-grid > *{background:var(--surface);padding:2rem;text-align:center;transition:all .35s}
+.tools-grid > *:hover{background:var(--surface-alt)}
+.tools-grid > *:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+.tools-grid > *:last-child{border-radius:0 var(--radius) var(--radius) 0}
+.tool-c .ic{font-size:1.1rem;margin-bottom:.7rem;opacity:0.6}
+.tool-c h3{font-size:.85rem;font-weight:600;margin-bottom:.2rem}
+.tool-c p{font-size:.76rem;color:var(--text-secondary);line-height:1.5}
 
 /* platforms */
-.plat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.plat-c{
-  background:var(--surface);border:1px solid var(--border-light);
-  border-radius:var(--radius);padding:1.75rem;transition:all .25s;
-}
-.plat-c:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
-.plat-c-hd{display:flex;align-items:center;gap:10px;margin-bottom:.7rem}
-.plat-c-hd .pi{
-  width:36px;height:36px;border-radius:8px;
-  display:flex;align-items:center;justify-content:center;font-size:.95rem;
-}
-.plat-c-hd h3{font-size:.95rem;font-weight:700}
-.plat-c-desc{font-size:.82rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.9rem}
-.plat-c-metrics{display:flex;gap:1.25rem;padding-top:.9rem;border-top:1px solid var(--border-light)}
-.plat-c-metrics div{font-size:.72rem;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.04em}
-.plat-c-metrics strong{display:block;font-size:.88rem;font-weight:700;color:var(--text);margin-top:2px;letter-spacing:0}
+.plat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px}
+.plat-grid > *{background:var(--surface);padding:2rem;transition:all .35s}
+.plat-grid > *:hover{background:var(--surface-alt)}
+.plat-grid > *:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+.plat-grid > *:last-child{border-radius:0 var(--radius) var(--radius) 0}
+.plat-c .ph{display:flex;align-items:center;gap:10px;margin-bottom:.8rem}
+.plat-c .ph .pi{font-size:.9rem;opacity:0.6}
+.plat-c .ph h3{font-size:.9rem;font-weight:600}
+.plat-c .desc{font-size:.8rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.9rem}
+.plat-c .metrics{display:flex;gap:1.5rem;padding-top:.9rem;border-top:1px solid var(--border)}
+.plat-c .metrics div{font-size:.7rem;color:var(--text-tertiary);letter-spacing:.03em}
+.plat-c .metrics strong{display:block;font-size:.85rem;font-weight:600;color:var(--text);margin-top:2px}
 
 /* contact */
-#contact{padding-bottom:3rem}
-.contact-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;
-  max-width:560px;margin:2rem auto 0;
+#contact{padding-bottom:4rem}
+.contact-line{
+  display:flex;gap:2.5rem;justify-content:center;
+  margin-top:2.5rem;flex-wrap:wrap;
 }
-.contact-grid a{
-  display:flex;align-items:center;justify-content:center;gap:7px;
-  padding:.7rem 1rem;border-radius:var(--radius-sm);
-  background:var(--surface);border:1px solid var(--border-light);
-  color:var(--text);text-decoration:none;
-  font-size:.82rem;font-weight:500;transition:all .2s;
+.contact-line a{
+  color:var(--text-secondary);text-decoration:none;
+  font-size:.85rem;font-weight:400;letter-spacing:0.03em;
+  transition:color .25s;position:relative;
 }
-.contact-grid a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.contact-line a::after{
+  content:'';position:absolute;bottom:-2px;left:0;
+  width:0;height:1px;background:var(--accent);
+  transition:width .4s;
+}
+.contact-line a:hover{color:var(--text)}
+.contact-line a:hover::after{width:100%}
 
 /* footer */
 footer{
-  text-align:center;padding:2rem;
+  text-align:center;padding:2rem 2.5rem;
   border-top:1px solid var(--border-light);
-  font-size:.75rem;color:var(--text-tertiary)
+  font-size:.72rem;color:var(--text-tertiary)
 }
 
-/* ── reveal ── */
-.reveal{
-  opacity:0;transform:translateY(28px);
-  transition:opacity .55s ease,transform .55s ease;
-}
+/* reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
 .reveal.in{opacity:1;transform:translateY(0)}
 
-/* ── responsive ── */
-@media(max-width:960px){
-  .hero-grid{grid-template-columns:1fr;text-align:center;gap:2.5rem}
-  .hero-desc{margin-left:auto;margin-right:auto}
-  .hero-badges,.hero-actions{justify-content:center}
-  .hero-tag{margin-left:auto;margin-right:auto}
-  .avatar{width:200px;height:200px}
-  .avatar-inner{font-size:4rem}
-  .float-tag:nth-child(1){right:0}
-  .float-tag:nth-child(2){left:0}
-  .stats-row{grid-template-columns:1fr;width:calc(100% - 4rem)}
+/* responsive */
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;text-align:center;gap:2rem}
+  .hero-desc{margin:0 auto 2.5rem}
+  .hero-actions{justify-content:center}
+  .hero-label{text-align:center}
+  .hero-visual{flex-direction:row;justify-content:center}
+  .hero-mono{display:none}
+  .stats-bar{grid-template-columns:1fr;margin-top:2rem}
+  .stats-bar > *:first-child{border-radius:var(--radius) var(--radius) 0 0}
+  .stats-bar > *:last-child{border-radius:0 0 var(--radius) var(--radius)}
   .about-grid{grid-template-columns:1fr}
+  .about-grid > *:first-child{border-radius:var(--radius) var(--radius) 0 0}
+  .about-grid > *:last-child{border-radius:0 0 var(--radius) var(--radius)}
   .services-grid{grid-template-columns:1fr 1fr}
+  .services-grid > *:nth-child(3){border-radius:0}
+  .services-grid > *:nth-child(4){border-radius:0}
+  .port-grid{grid-template-columns:1fr 1fr}
+  .port-grid > *:first-child{border-radius:var(--radius) 0 0 0}
+  .port-grid > *:nth-child(3){border-radius:0 var(--radius) 0 0}
   .tools-grid{grid-template-columns:1fr 1fr}
+  .tools-grid > *:first-child{border-radius:var(--radius) 0 0 0}
+  .tools-grid > *:nth-child(2){border-radius:0 var(--radius) 0 0}
   .plat-grid{grid-template-columns:1fr}
-  .portfolio-grid{grid-template-columns:1fr 1fr}
-  .port-c--wide{grid-column:span 2;grid-row:auto}
+  .plat-grid > *:first-child{border-radius:var(--radius) var(--radius) 0 0}
+  .plat-grid > *:last-child{border-radius:0 0 var(--radius) var(--radius)}
+  .section-hdr.labeled{flex-direction:column;align-items:flex-start}
 }
 @media(max-width:600px){
   .hero{padding:100px 1.25rem 3rem}
-  section{padding:3rem 1.25rem}
+  section{padding:4rem 1.25rem}
   .services-grid{grid-template-columns:1fr}
+  .port-grid{grid-template-columns:1fr}
   .tools-grid{grid-template-columns:1fr}
-  .portfolio-grid{grid-template-columns:1fr}
-  .port-c--wide{grid-column:auto}
   .nav{display:none}
 }
 </style>
@@ -392,92 +342,92 @@ footer{
 <body>
 
 <header>
-  <div class="logo"><em>L</em>inda</div>
+  <div class="logo"><span>L</span>inda</div>
   <div class="nav">
     <a href="#about">关于</a>
     <a href="#services">服务</a>
     <a href="#portfolio">作品</a>
     <a href="#tools">工具链</a>
-    <a href="#content">内容</a>
     <a href="#contact">联系</a>
   </div>
 </header>
 
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-bg-glow"></div>
-  <div class="hero-bg-glow-2"></div>
-  <div class="hero-grid">
-    <div>
-      <div class="hero-tag"><span class="dot"></span>真实副业 · 日更实验</div>
-      <h1>用 <span class="gradient">AI</span><br>做 <span class="highlight">真实的</span> 副业</h1>
-      <p class="hero-desc">
-        从工具到收入，每个实践都记录在案。<strong>不是工具太少，是反馈太慢</strong>。<br>
-        抖音日更 · 闲鱼在售 · 小红书同步 · 全用 AI 提效
-      </p>
-      <div class="hero-badges">
-        <span><span class="bd bd--accent"></span>AI 副业实战</span>
-        <span><span class="bd bd--green"></span>内容变现</span>
-        <span><span class="bd bd--amber"></span>多平台运营</span>
-        <span><span class="bd bd--accent"></span>效率工具</span>
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-label">AI 副业 · 日更实验</div>
+        <h1>
+          用 AI<br>
+          <span class="serif">做出</span> 真实的<br>
+          <span class="accent">副业</span>
+        </h1>
+        <p class="hero-desc">
+          从工具到收入，每个实践都记录在案。<br>
+          不是工具太少，是反馈太慢。
+        </p>
+        <div class="hero-actions">
+          <a href="#services" class="btn btn-primary">看看服务</a>
+          <a href="#portfolio" class="btn btn-secondary">作品案例</a>
+        </div>
       </div>
-      <div class="hero-actions">
-        <a href="#services" class="btn btn-primary">看看服务 →</a>
-        <a href="#content" class="btn btn-secondary">内容矩阵</a>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="avatar">
-        <div class="avatar-inner"><span>L</span></div>
-      </div>
-      <div class="float-tags">
-        <div class="float-tag">🎯 抖音 7.9k 播放</div>
-        <div class="float-tag">🤖 AI 全流程驱动</div>
-        <div class="float-tag">📦 闲鱼在售</div>
+      <div class="hero-visual">
+        <div class="hero-stats-mini">
+          <div>
+            <div class="num">3+</div>
+            <div class="lbl">渠道</div>
+          </div>
+          <div>
+            <div class="num">日更</div>
+            <div class="lbl">节奏</div>
+          </div>
+          <div>
+            <div class="num">AI</div>
+            <div class="lbl">驱动</div>
+          </div>
+        </div>
+        <div class="hero-mono">CONTENT × AI × SIDE HUSTLE</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="stats-row">
-  <div class="stat-tile">
-    <div class="stat-tile-icon" style="background:var(--accent-soft)">🎯</div>
-    <div class="stat-tile-text">
-      <div class="num">3+</div>
-      <div class="lbl">多渠道同步变现</div>
-    </div>
+<!-- Stats -->
+<div class="stats-bar">
+  <div>
+    <span class="sym">✦</span>
+    <div><div class="n">3+</div><div class="l">多渠道变现</div></div>
   </div>
-  <div class="stat-tile">
-    <div class="stat-tile-icon" style="background:var(--green-soft)">📅</div>
-    <div class="stat-tile-text">
-      <div class="num">日更</div>
-      <div class="lbl">抖音 · 闲鱼 · 小红书</div>
-    </div>
+  <div>
+    <span class="sym">◈</span>
+    <div><div class="n">7.9k</div><div class="l">近 7 日播放</div></div>
   </div>
-  <div class="stat-tile">
-    <div class="stat-tile-icon" style="background:var(--amber-soft)">⚡</div>
-    <div class="stat-tile-text">
-      <div class="num">AI</div>
-      <div class="lbl">全流程驱动提效</div>
-    </div>
+  <div>
+    <span class="sym">◇</span>
+    <div><div class="n">100+</div><div class="l">互动</div></div>
   </div>
 </div>
 
 <!-- About -->
 <section id="about">
-  <div class="section-header">
-    <span class="section-eyebrow">About</span>
-    <h2 class="section-title">用 AI 跑通每一环</h2>
-    <p class="section-desc">不是教 AI 的博主，是把 AI 当队友的副业实践者。</p>
+  <div class="section-hdr">
+    <div>
+      <div class="eyebrow">About</div>
+      <h2>用 AI 跑通每一环</h2>
+    </div>
+    <div class="sub">不是教 AI 的博主，是把 AI 当队友的副业实践者。</div>
   </div>
+
   <div class="about-grid">
-    <div class="about-card">
+    <div class="about-text">
       <p>我是 <strong>Linda</strong>——一个把 AI 副业从实验跑成日常的人。</p>
-      <p>不做空洞的工具盘点，每条内容都来自真实操作：用 Codex 做自动化、用 Voicebox 配音、用 HyperFrames 做视频。我发现<strong>「不是工具太少，是反馈太慢」</strong>——于是我把每个环节都跑通、记录、发出来。</p>
-      <p>日更抖音，同时跑通闲鱼和小红书。内容逻辑很简单：<strong>目标人群 → 具体痛点 → 可执行方法 → 自然承接</strong>。不讲大道理，只给能落地的实操。</p>
+      <p>不做空洞的工具盘点，每条内容都来自真实操作：用 Codex 做自动化、用 Voicebox 配音、用 HyperFrames 做视频。我发现<strong>不是工具太少，是反馈太慢</strong>——于是我把每个环节都跑通、记录、发出来。</p>
+      <p>日更抖音，同时跑通闲鱼和小红书。内容逻辑很简单：目标人群 → 具体痛点 → 可执行方法 → 自然承接。不讲大道理，只给能落地的实操。</p>
       <p>提供的服务也一样——PPT、简历、海报，全部有 AI 效率加持，但不丢失人的判断和温度。</p>
     </div>
-    <div class="tl-card">
+    <div>
       <div class="tl">
         <div class="tl-it">
           <div class="t">🎬 抖音内容日更</div>
@@ -502,86 +452,92 @@ footer{
 
 <!-- Services -->
 <section id="services">
-  <div class="section-header">
-    <span class="section-eyebrow">Services</span>
-    <h2 class="section-title">提供的服务</h2>
-    <p class="section-desc">AI 参与提效，经人工校对后交付。</p>
+  <div class="section-hdr labeled">
+    <div>
+      <div class="eyebrow">Services</div>
+      <h2>提供的服务</h2>
+    </div>
+    <div class="sub">AI 参与提效，经人工校对后交付。</div>
   </div>
+
   <div class="services-grid">
     <div class="service-c">
-      <div class="ic" style="background:var(--accent-soft)">📊</div>
-      <h3>PPT 设计与美化</h3>
-      <p>路演、汇报、方案型 PPT。AI 生成骨架 + 人工精细调校，比全自动多一层审美把控。</p>
+      <div class="ic">📊</div>
+      <h3>PPT 设计</h3>
+      <p>路演、汇报、方案型 PPT。AI 骨架 + 人工调校，比全自动多一层审美把控。</p>
     </div>
     <div class="service-c">
-      <div class="ic" style="background:var(--green-soft)">📝</div>
+      <div class="ic">📝</div>
       <h3>简历优化</h3>
-      <p>突出个人优势，适配目标岗位。从排版到措辞，让 HR 在 10 秒内记住你。</p>
+      <p>突出个人优势，适配目标岗位。从排版到措辞，HR 10 秒内记住你。</p>
     </div>
     <div class="service-c">
-      <div class="ic" style="background:var(--amber-soft)">🖼️</div>
-      <h3>今日服务海报</h3>
-      <p>日更 / 活动 / 产品海报。AI 批量出稿 + 人工精选，适合小商家和个人 IP。</p>
+      <div class="ic">🖼️</div>
+      <h3>服务海报</h3>
+      <p>日更 / 活动 / 产品海报。AI 出稿 + 人工精选，适合小商家和个人 IP。</p>
     </div>
     <div class="service-c">
-      <div class="ic" style="background:var(--rose-soft)">📹</div>
-      <h3>短视频内容代做</h3>
-      <p>AI 实操类短视频制作。从选题、配音到成片，适合没时间自己做内容的账号。</p>
+      <div class="ic">📹</div>
+      <h3>短视频代做</h3>
+      <p>AI 实操类短视频。从选题、配音到成片，适合没时间自己做内容的账号。</p>
     </div>
     <div class="service-c">
-      <div class="ic" style="background:var(--accent-soft)">🤖</div>
+      <div class="ic">🤖</div>
       <h3>AI 工作流咨询</h3>
-      <p>帮你梳理可被 AI 提效的重复环节，搭建从内容到变现的自动化链路。</p>
+      <p>梳理可被 AI 提效的重复环节，搭建从内容到变现的自动化链路。</p>
     </div>
     <div class="service-c">
-      <div class="ic" style="background:var(--green-soft)">🔧</div>
-      <h3>定制自动化工具</h3>
-      <p>Codex / Python / 脚本类自动化定制，针对个人或小团队的低成本效率工具。</p>
+      <div class="ic">🔧</div>
+      <h3>自动化定制</h3>
+      <p>Codex / Python 脚本定制，针对个人或小团队的低成本效率工具。</p>
     </div>
   </div>
 </section>
 
 <!-- Portfolio -->
 <section id="portfolio">
-  <div class="section-header">
-    <span class="section-eyebrow">Portfolio</span>
-    <h2 class="section-title">作品案例</h2>
-    <p class="section-desc">部分海报、卡片的实际出稿效果。</p>
+  <div class="section-hdr labeled">
+    <div>
+      <div class="eyebrow">Portfolio</div>
+      <h2>作品案例</h2>
+    </div>
+    <div class="sub">部分海报、卡片的实际出稿效果。</div>
   </div>
-  <div class="portfolio-grid">
-    <div class="port-c port-c--wide">
-      <div class="port-c-img"><img src="./xhs-ai-sidehustle-card1.svg.png" alt="AI 副业卡片 1" loading="lazy"></div>
-      <div class="port-c-bd">
-        <div class="port-tag">小红书 · AI 副业</div>
+
+  <div class="port-grid">
+    <div class="port-c">
+      <div class="port-img"><img src="./xhs-ai-sidehustle-card1.svg.png" alt="AI 副业卡片" loading="lazy"></div>
+      <div class="port-bd">
+        <div class="tag">小红书</div>
         <h3>AI 副业系列卡片</h3>
         <p>高信息密度的 AI 副业科普卡片，适配小红书图文分发。</p>
       </div>
     </div>
     <div class="port-c">
-      <div class="port-c-img"><img src="./xhs-ai-sidehustle-card2.svg.png" alt="AI 副业卡片 2" loading="lazy"></div>
-      <div class="port-c-bd">
-        <div class="port-tag">小红书 · AI 副业</div>
+      <div class="port-img"><img src="./xhs-ai-sidehustle-card2.svg.png" alt="AI 副业卡片" loading="lazy"></div>
+      <div class="port-bd">
+        <div class="tag">小红书</div>
         <h3>AI 副业系列</h3>
       </div>
     </div>
     <div class="port-c">
-      <div class="port-c-img"><img src="./xhs-ai-sidehustle-card3.svg.png" alt="AI 副业卡片 3" loading="lazy"></div>
-      <div class="port-c-bd">
-        <div class="port-tag">小红书 · AI 副业</div>
+      <div class="port-img"><img src="./xhs-ai-sidehustle-card3.svg.png" alt="AI 副业卡片" loading="lazy"></div>
+      <div class="port-bd">
+        <div class="tag">小红书</div>
         <h3>AI 副业系列</h3>
       </div>
     </div>
     <div class="port-c">
-      <div class="port-c-img"><img src="./today-service-poster.svg.png" alt="今日服务海报" loading="lazy"></div>
-      <div class="port-c-bd">
-        <div class="port-tag">服务海报</div>
+      <div class="port-img"><img src="./today-service-poster.svg.png" alt="服务海报" loading="lazy"></div>
+      <div class="port-bd">
+        <div class="tag">服务海报</div>
         <h3>今日服务</h3>
       </div>
     </div>
     <div class="port-c">
-      <div class="port-c-img"><img src="./short-video-content-plan-poster.svg.png" alt="短视频内容规划" loading="lazy"></div>
-      <div class="port-c-bd">
-        <div class="port-tag">内容规划</div>
+      <div class="port-img"><img src="./short-video-content-plan-poster.svg.png" alt="内容规划" loading="lazy"></div>
+      <div class="port-bd">
+        <div class="tag">内容规划</div>
         <h3>短视频内容规划方案</h3>
       </div>
     </div>
@@ -590,75 +546,81 @@ footer{
 
 <!-- Tools -->
 <section id="tools">
-  <div class="section-header">
-    <span class="section-eyebrow">Toolchain</span>
-    <h2 class="section-title">AI 工具链</h2>
-    <p class="section-desc">支撑每日内容产出的核心工具。</p>
+  <div class="section-hdr labeled">
+    <div>
+      <div class="eyebrow">Toolchain</div>
+      <h2>AI 工具链</h2>
+    </div>
+    <div class="sub">支撑每日内容产出的核心工具。</div>
   </div>
+
   <div class="tools-grid">
     <div class="tool-c">
-      <div class="ic" style="background:var(--accent-soft)">🧠</div>
+      <div class="ic">🧠</div>
       <h3>Codex</h3>
       <p>自动化执行、项目管理、复杂任务编排。日常副业操作的引擎。</p>
     </div>
     <div class="tool-c">
-      <div class="ic" style="background:var(--green-soft)">🎙️</div>
+      <div class="ic">🎙️</div>
       <h3>Voicebox</h3>
-      <p>人声配音生成。定制 Linda 声线模型，视频旁白统一风格。</p>
+      <p>人声配音生成。定制 Linda 声线，视频旁白统一风格。</p>
     </div>
     <div class="tool-c">
-      <div class="ic" style="background:var(--amber-soft)">🎬</div>
+      <div class="ic">🎬</div>
       <h3>HyperFrames</h3>
       <p>HTML 视频渲染。动效、转场、字幕、语音同步一条龙。</p>
     </div>
     <div class="tool-c">
-      <div class="ic" style="background:var(--rose-soft)">📋</div>
+      <div class="ic">📋</div>
       <h3>多平台运营系统</h3>
-      <p>抖音、闲鱼、小红书三端同步。数据反馈驱动选题优化。</p>
+      <p>抖音、闲鱼、小红书三端同步，数据驱动选题优化。</p>
     </div>
   </div>
 </section>
 
 <!-- Content -->
 <section id="content">
-  <div class="section-header">
-    <span class="section-eyebrow">Content</span>
-    <h2 class="section-title">内容矩阵</h2>
-    <p class="section-desc">每条内容都来自真实操作数据，不做空洞复盘。</p>
+  <div class="section-hdr labeled">
+    <div>
+      <div class="eyebrow">Content</div>
+      <h2>内容矩阵</h2>
+    </div>
+    <div class="sub">每条内容都来自真实操作数据，不做空洞复盘。</div>
   </div>
+
   <div class="plat-grid">
     <div class="plat-c">
-      <div class="plat-c-hd">
-        <div class="pi" style="background:var(--accent-soft)">🎵</div>
+      <div class="ph">
+        <span class="pi">🎵</span>
         <h3>抖音</h3>
       </div>
-      <p class="plat-c-desc">AI 实操 / 真实任务 / 副业实验反馈闭环。日更，前 2 秒给结论和冲突，不绕弯子。</p>
-      <div class="plat-c-metrics">
+      <p class="desc">AI 实操 / 真实任务 / 副业实验反馈闭环。日更，前 2 秒给结论和冲突。</p>
+      <div class="metrics">
         <div>近 7 日播放<strong>7.9k</strong></div>
         <div>互动<strong>100+</strong></div>
         <div>净增<strong>+7</strong></div>
       </div>
     </div>
     <div class="plat-c">
-      <div class="plat-c-hd">
-        <div class="pi" style="background:var(--green-soft)">📕</div>
+      <div class="ph">
+        <span class="pi">📕</span>
         <h3>小红书</h3>
       </div>
-      <p class="plat-c-desc">AI 副业实验笔记、高信息密度卡片、实用工具拆解。同步分发，适配平台调性。</p>
-      <div class="plat-c-metrics">
+      <p class="desc">AI 副业实验笔记、高信息密度卡片、实用工具拆解。同步分发适配平台调性。</p>
+      <div class="metrics">
         <div>内容类型<strong>图文 · 卡片</strong></div>
         <div>方向<strong>AI 副业</strong></div>
       </div>
     </div>
     <div class="plat-c">
-      <div class="plat-c-hd">
-        <div class="pi" style="background:var(--amber-soft)">📦</div>
+      <div class="ph">
+        <span class="pi">📦</span>
         <h3>闲鱼</h3>
       </div>
-      <p class="plat-c-desc">PPT / 简历 / 海报服务在售。AI 辅助制作 + 人工校对，承接明确购买需求。</p>
-      <div class="plat-c-metrics">
+      <p class="desc">PPT / 简历 / 海报服务在售。AI 辅助 + 人工校对，承接明确购买需求。</p>
+      <div class="metrics">
         <div>在线商品<strong>3+</strong></div>
-        <div>交付方式<strong>AI + 人工</strong></div>
+        <div>交付<strong>AI + 人工</strong></div>
       </div>
     </div>
   </div>
@@ -666,16 +628,16 @@ footer{
 
 <!-- Contact -->
 <section id="contact">
-  <div class="section-header">
-    <span class="section-eyebrow">Contact</span>
-    <h2 class="section-title">找到我</h2>
-    <p class="section-desc">有需求、想合作、或者单纯想聊聊 AI 副业——</p>
+  <div class="section-hdr" style="text-align:center">
+    <div class="eyebrow">Contact</div>
+    <h2>找到我</h2>
+    <div class="sub" style="margin:.6rem auto 0">有需求、想合作、或者单纯想聊聊 AI 副业——</div>
   </div>
-  <div class="contact-grid">
-    <a href="#">📕 小红书</a>
-    <a href="#">🎵 抖音</a>
-    <a href="#">📦 闲鱼</a>
-    <a href="mailto:linda@example.com">✉️ 邮件联系</a>
+  <div class="contact-line">
+    <a href="#">小红书</a>
+    <a href="#">抖音</a>
+    <a href="#">闲鱼</a>
+    <a href="mailto:linda@example.com">邮件联系</a>
   </div>
 </section>
 
@@ -684,13 +646,10 @@ footer{
 </footer>
 
 <script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in') });
-}, { threshold: 0.08 });
-
-document.querySelectorAll(
-  '.stat-tile, .about-card, .tl-card, .service-c, .port-c, .tool-c, .plat-c'
-).forEach(el => { el.classList.add('reveal'); observer.observe(el); });
+const o = new IntersectionObserver(e=>e.forEach(en=>en.isIntersecting&&en.target.classList.add('in')),{threshold:.08});
+document.querySelectorAll('.stats-bar>*, .about-grid>*, .service-c, .port-c, .tool-c, .plat-c').forEach(el=>{
+  el.classList.add('reveal');o.observe(el);
+});
 </script>
 </body>
 </html>
